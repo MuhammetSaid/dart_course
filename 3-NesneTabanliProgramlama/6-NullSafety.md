@@ -253,14 +253,14 @@ List<String>? liste;        // null olabilir
 
 ### Karşılaştırma Tablosu
 
-| Özellik | Non-Nullable | Nullable |
-|---------|-------------|----------|
-| Syntax | `String name` | `String? name` |
-| Null olabilir mi? | ❌ Hayır | ✅ Evet |
-| Başlangıç değeri | Zorunlu | Opsiyonel |
-| Doğrudan erişim | ✅ Güvenli | ⚠️ Kontrol gerekli |
-| Varsayılan | ✅ Evet | ❌ Hayır |
-| Kullanım | %80-90 | %10-20 |
+|      Özellik      |     Non-Nullable     |     Nullable     |
+|-------------------|----------------------|------------------|
+|       Syntax      |    `String name`     |  `String? name`  |
+| Null olabilir mi? |       ❌ Hayır      |      ✅ Evet     |
+| Başlangıç değeri  |         Zorunlu      |     Opsiyonel    |
+|  Doğrudan erişim  |       ✅ Güvenli    |⚠️ Kontrol gerekli|
+|    Varsayılan     |        ✅ Evet      |     ❌ Hayır     |
+|      Kullanım     |         %80-90       |         %10-20   |
 
 ### Ne Zaman Hangisi?
 
