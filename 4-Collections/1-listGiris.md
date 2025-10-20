@@ -75,51 +75,68 @@ List<String> sabitListe = List.filled(3, "Varsayılan");
 ```dart
 List<String> isimler = ["Ahmet", "Ayşe"];
 
-// Sonuna ekleme
+// Sonuna ekleme - O(1) amortize karmaşıklık
 isimler.add("Mehmet");           // ["Ahmet", "Ayşe", "Mehmet"]
 
-// Belirli pozisyona ekleme
+// Belirli pozisyona ekleme - O(n) karmaşıklık
 isimler.insert(1, "Elif");       // ["Ahmet", "Elif", "Ayşe", "Mehmet"]
 
-// Birden fazla eleman ekleme
+// Birden fazla eleman ekleme - O(k) karmaşıklık (k = eklenen eleman sayısı)
 isimler.addAll(["Ali", "Zeynep"]); // ["Ahmet", "Elif", "Ayşe", "Mehmet", "Ali", "Zeynep"]
 ```
+
+**Karmaşıklık Notları:**
+- `add()`: Amortize O(1) - çoğu durumda çok hızlı, bazen kapasite artırımı gerekebilir
+- `insert()`: O(n) - araya ekleme tüm elemanları kaydırır
+- `addAll()`: O(k) - eklenen eleman sayısı kadar zaman alır
 
 ### Eleman Silme
 ```dart
 List<String> isimler = ["Ahmet", "Elif", "Ayşe", "Mehmet"];
 
-// Değere göre silme
+// Değere göre silme - O(n) karmaşıklık
 isimler.remove("Elif");          // ["Ahmet", "Ayşe", "Mehmet"]
 
-// İndekse göre silme
+// İndekse göre silme - O(n) karmaşıklık
 isimler.removeAt(0);             // ["Ayşe", "Mehmet"]
 
-// Son elemanı silme
+// Son elemanı silme - O(1) karmaşıklık
 isimler.removeLast();            // ["Ayşe"]
 
-// Belirli koşula uyan elemanları silme
+// Belirli koşula uyan elemanları silme - O(n) karmaşıklık
 isimler.removeWhere((isim) => isim.length > 4); // 4 karakterden uzun isimleri sil
 
-// Tüm elemanları silme
+// Tüm elemanları silme - O(1) karmaşıklık
 isimler.clear();                 // []
 ```
+
+**Karmaşıklık Notları:**
+- `remove()`: O(n) - elemanı bulmak için tüm listeyi tarar
+- `removeAt()`: O(n) - aradan silme tüm elemanları kaydırır
+- `removeLast()`: O(1) - sadece son elemanı siler, çok hızlı
+- `removeWhere()`: O(n) - tüm elemanları kontrol eder
+- `clear()`: O(1) - sadece referansları temizler
 
 ### Eleman Erişimi
 ```dart
 List<String> isimler = ["Ahmet", "Ayşe", "Mehmet"];
 
-// İndeks ile erişim
+// İndeks ile erişim - O(1) karmaşıklık
 String ilkIsim = isimler[0];     // "Ahmet"
 String sonIsim = isimler[isimler.length - 1]; // "Mehmet"
 
-// Güvenli erişim (hata vermez)
+// Güvenli erişim (hata vermez) - O(1) karmaşıklık
 String? guvenliErisim = isimler.length > 5 ? isimler[5] : null;
 
-// İlk ve son eleman
+// İlk ve son eleman - O(1) karmaşıklık
 String ilk = isimler.first;      // "Ahmet"
 String son = isimler.last;       // "Mehmet"
 ```
+
+**Karmaşıklık Notları:**
+- İndeks erişimi: O(1) - doğrudan bellek adresine erişim, çok hızlı
+- `first`/`last`: O(1) - sadece ilk/son elemanı döndürür
+- `length`: O(1) - liste boyutu önceden hesaplanmış
 
 ## List Metodları
 
@@ -127,67 +144,88 @@ String son = isimler.last;       // "Mehmet"
 ```dart
 List<String> isimler = ["Ahmet", "Ayşe", "Mehmet", "Ayşe"];
 
-// Eleman var mı kontrolü
+// Eleman var mı kontrolü - O(n) karmaşıklık
 bool varMi = isimler.contains("Ayşe");        // true
 
-// İndeks bulma
+// İndeks bulma - O(n) karmaşıklık
 int indeks = isimler.indexOf("Ayşe");         // 1 (ilk bulduğu yer)
 int sonIndeks = isimler.lastIndexOf("Ayşe");  // 3 (son bulduğu yer)
 
-// Koşula uyan eleman var mı
+// Koşula uyan eleman var mı - O(n) karmaşıklık
 bool uzunIsimVar = isimler.any((isim) => isim.length > 5); // false
 
-// Tüm elemanlar koşula uyuyor mu
+// Tüm elemanlar koşula uyuyor mu - O(n) karmaşıklık
 bool hepsiKisa = isimler.every((isim) => isim.length < 10); // true
 ```
+
+**Karmaşıklık Notları:**
+- `contains()`: O(n) - tüm listeyi tarar, eleman bulunca durur
+- `indexOf()`: O(n) - baştan tarar, ilk eşleşmeyi bulur
+- `lastIndexOf()`: O(n) - sondan tarar, son eşleşmeyi bulur
+- `any()`: O(n) - koşula uyan ilk elemanı bulunca durur
+- `every()`: O(n) - tüm elemanları kontrol eder
 
 ### Dönüştürme Metodları
 ```dart
 List<int> sayilar = [1, 2, 3, 4, 5];
 
-// Her elemanı dönüştürme
+// Her elemanı dönüştürme - O(n) karmaşıklık
 List<String> stringSayilar = sayilar.map((sayi) => sayi.toString()).toList();
 // Sonuç: ["1", "2", "3", "4", "5"]
 
-// Koşula uyan elemanları filtreleme
+// Koşula uyan elemanları filtreleme - O(n) karmaşıklık
 List<int> ciftSayilar = sayilar.where((sayi) => sayi % 2 == 0).toList();
 // Sonuç: [2, 4]
 
-// İlk n elemanı alma
+// İlk n elemanı alma - O(k) karmaşıklık (k = alınan eleman sayısı)
 List<int> ilkUc = sayilar.take(3).toList();   // [1, 2, 3]
 
-// Son n elemanı alma
+// Son n elemanı alma - O(n) karmaşıklık
 List<int> sonUc = sayilar.skip(2).toList();   // [3, 4, 5]
 ```
+
+**Karmaşıklık Notları:**
+- `map()`: O(n) - tüm elemanları dönüştürür
+- `where()`: O(n) - tüm elemanları kontrol eder
+- `take()`: O(k) - sadece istenen kadar eleman alır
+- `skip()`: O(n) - atlanacak elemanları da kontrol eder
 
 ### Sıralama Metodları
 ```dart
 List<int> sayilar = [5, 2, 8, 1, 9];
 
-// Artan sıralama
+// Artan sıralama - O(n log n) karmaşıklık
 sayilar.sort();                  // [1, 2, 5, 8, 9]
 
-// Azalan sıralama
+// Azalan sıralama - O(n log n) karmaşıklık
 sayilar.sort((a, b) => b.compareTo(a)); // [9, 8, 5, 2, 1]
 
-// String listesi sıralama
+// String listesi sıralama - O(n log n) karmaşıklık
 List<String> isimler = ["Zeynep", "Ahmet", "Ayşe"];
 isimler.sort();                  // ["Ahmet", "Ayşe", "Zeynep"]
 
-// Özel sıralama (uzunluğa göre)
+// Özel sıralama (uzunluğa göre) - O(n log n) karmaşıklık
 isimler.sort((a, b) => a.length.compareTo(b.length));
 ```
+
+**Karmaşıklık Notları:**
+- `sort()`: O(n log n) - TimSort algoritması kullanır, çoğu durumda O(n) yakın performans
+- Özel karşılaştırıcı: O(n log n) - her karşılaştırma için fonksiyon çağrısı
 
 ### Ters Çevirme
 ```dart
 List<int> sayilar = [1, 2, 3, 4, 5];
 
-// Ters çevirme (orijinal listeyi değiştirir)
+// Ters çevirme (orijinal listeyi değiştirmez) - O(n) karmaşıklık
 sayilar.reversed.toList();       // [5, 4, 3, 2, 1]
 
-// Orijinal listeyi değiştirmeden ters çevirme
+// Orijinal listeyi değiştirmeden ters çevirme - O(n) karmaşıklık
 List<int> tersListe = List.from(sayilar.reversed);
 ```
+
+**Karmaşıklık Notları:**
+- `reversed`: O(1) - sadece iterable döndürür, gerçek işlem yapmaz
+- `toList()`: O(n) - yeni liste oluşturur ve tüm elemanları kopyalar
 
 ## List Türleri
 
@@ -306,12 +344,45 @@ class SayiIslemleri {
 }
 ```
 
-## Performans İpuçları
+## Performans İpuçları ve Karmaşıklık Özeti
+
+### ⚡ Hızlı İşlemler (O(1))
+```dart
+// Bu işlemler çok hızlıdır, liste boyutundan bağımsız
+liste.isEmpty;        // O(1) - boş mu kontrolü
+liste.length;         // O(1) - boyut bilgisi
+liste[0];             // O(1) - indeks erişimi
+liste.first;          // O(1) - ilk eleman
+liste.last;           // O(1) - son eleman
+liste.add(item);      // O(1) amortize - sona ekleme
+liste.removeLast();   // O(1) - son elemanı silme
+liste.clear();        // O(1) - tüm elemanları silme
+```
+
+### 🐌 Yavaş İşlemler (O(n))
+```dart
+// Bu işlemler liste boyutuyla doğru orantılı zaman alır
+liste.contains(item);     // O(n) - eleman arama
+liste.indexOf(item);      // O(n) - indeks bulma
+liste.remove(item);       // O(n) - değere göre silme
+liste.removeAt(0);        // O(n) - aradan silme
+liste.insert(0, item);    // O(n) - araya ekleme
+liste.where(condition);   // O(n) - filtreleme
+liste.map(transform);     // O(n) - dönüştürme
+```
+
+### 🔥 En Yavaş İşlemler (O(n log n))
+```dart
+// Sıralama işlemleri
+liste.sort();                    // O(n log n) - sıralama
+liste.sort(customComparator);    // O(n log n) - özel sıralama
+```
 
 ### 1. Kapasite Belirtme
 ```dart
 // Büyük listeler için başlangıç kapasitesi belirtin
 List<int> buyukListe = List<int>.filled(1000, 0, growable: true);
+// Bu, sık add() işlemlerinde performans artışı sağlar
 ```
 
 ### 2. Verimli Arama
@@ -319,6 +390,10 @@ List<int> buyukListe = List<int>.filled(1000, 0, growable: true);
 // Sık arama yapılacaksa Set kullanın
 Set<String> hizliArama = {"Ahmet", "Ayşe", "Mehmet"};
 bool varMi = hizliArama.contains("Ayşe"); // O(1) karmaşıklık
+
+// Listede arama O(n), Set'te arama O(1)
+// 1000 elemanlı listede: List.contains() ~1000 karşılaştırma
+// 1000 elemanlı Set'te: Set.contains() ~1 karşılaştırma
 ```
 
 ### 3. Bellek Yönetimi
@@ -326,7 +401,20 @@ bool varMi = hizliArama.contains("Ayşe"); // O(1) karmaşıklık
 // Kullanılmayan listeleri temizleyin
 List<String> geciciListe = [];
 // ... işlemler ...
-geciciListe.clear(); // Belleği serbest bırak
+geciciListe.clear(); // O(1) - Belleği serbest bırak
+```
+
+### 4. Performans Karşılaştırması
+```dart
+// 10,000 elemanlı liste için tahmini süreler:
+// O(1) işlemler: ~0.001ms
+// O(n) işlemler: ~1ms  
+// O(n log n) işlemler: ~13ms
+
+// 100,000 elemanlı liste için:
+// O(1) işlemler: ~0.001ms
+// O(n) işlemler: ~10ms
+// O(n log n) işlemler: ~166ms
 ```
 
 ## Yaygın Hatalar
